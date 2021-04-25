@@ -204,28 +204,28 @@ export const AccountScreen = ({navigation}) => {
           <TouchableOpacity onPress={() => navigation.navigate('AddressEdit',{address: userInfo.address})}>
             <View style={styles.row}>
               <Icon name="map-marker-radius" color="#0d60ae" size={30} />
-              <Text style={{color: '#777777', marginLeft: 20, fontSize: 15}}>
+              <Text style={{color: '#777777', marginLeft: 20, fontSize: 15, flex:1}}>
                 {userInfo.address}
               </Text>
               <Icon
                 name="chevron-right"
                 color="#777777"
                 size={30}
-                style={{marginLeft: 'auto'}}
+              
               />
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('EmailEdit',{email: userInfo.email})}>
             <View style={styles.row}>
               <Icon name="email" color="#0d60ae" size={30} />
-              <Text style={{color: '#777777', marginLeft: 20, fontSize: 15}}>
+              <Text style={{color: '#777777', marginLeft: 20, fontSize: 15, flex:1}}>
                 {userInfo.email}
               </Text>
               <Icon
                 name="chevron-right"
                 color="#777777"
                 size={30}
-                style={{marginLeft: 'auto'}}
+                
               />
             </View>
           </TouchableOpacity>

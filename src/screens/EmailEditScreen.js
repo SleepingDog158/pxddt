@@ -69,7 +69,7 @@ export const EmailEditScreen = ({navigation, route}) => {
       <Text style={[styles.text_footer, {marginTop: 15}]}>Email</Text>
       <View style={styles.action}>
         <TextInput
-          placeholder={email}
+          defaultValue={email}
           style={styles.textInput}
           onChangeText={value => handleChange(value)}
         />

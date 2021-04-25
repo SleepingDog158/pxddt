@@ -72,7 +72,7 @@ export const AddressEditScreen = ({route, navigation}) => {
       <Text style={[styles.text_footer, {marginTop: 15}]}>Địa chỉ</Text>
       <View style={styles.action}>
         <TextInput
-          placeholder={address}
+          defaultValue={address}
           style={styles.textInput}
           onChangeText={value => handleChange(value)}
         />
