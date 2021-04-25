@@ -106,12 +106,11 @@ export const SignInAltScreen = ({navigation}) => {
         <View style={styles.action}>
           <TextInput
             selectionColor={'#fff'}
-            autoFocus={true}
             placeholder="Nhập mật khẩu"
             placeholderTextColor={'#FFF'}
             secureTextEntry={data.secureTextEntry}
             style={styles.textInput}
-            autoCapotalize="none"
+            autoCapitalize="none"
             onChangeText={value => handlePasswordChange(value)}
           />
 

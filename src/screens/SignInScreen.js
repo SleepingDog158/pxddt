@@ -99,7 +99,7 @@ export const SignInScreen = ({navigation}) => {
             placeholderTextColor={'#FFF'}
             placeholder="Tên đăng nhập"
             style={styles.textInput}
-            autoCapotalize="none"
+            autoCapitalize="none"
             onChangeText={value => textInputChange(value)}
           />
         </View>
@@ -113,7 +113,7 @@ export const SignInScreen = ({navigation}) => {
             placeholderTextColor={'#FFF'}
             secureTextEntry={data.secureTextEntry}
             style={styles.textInput}
-            autoCapotalize="none"
+            autoCapitalize="none"
             onChangeText={value => handlePasswordChange(value)}
           />
           
