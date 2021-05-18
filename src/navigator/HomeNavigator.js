@@ -1,6 +1,5 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import {HomeScreen} from "../screens/HomeScreen"
 const HomeStack = createStackNavigator();
 export const HomeNavigator = ({navigation}) => (
@@ -19,16 +18,7 @@ export const HomeNavigator = ({navigation}) => (
       name="HomeScreen"
       component={HomeScreen}
       options={{
-        title: 'Trang chủ',
-        headerRight: () => (
-          <Icon.Button
-            name="user-alt"
-            size={23}
-            backgroundColor="#0d60ae"
-            onPress={() => {
-             navigation.navigate("Account")
-            }}></Icon.Button>
-        ),
+        headerShown:false
       }}
     />
   </HomeStack.Navigator>

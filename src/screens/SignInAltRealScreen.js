@@ -9,6 +9,8 @@ import {
   StatusBar,
   Alert,
   Dimensions,
+  Image,
+  ImageBackground,
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
@@ -16,8 +18,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import {useAuth} from '../hooks/useAuth';
 import {useUserInfo} from '../hooks/useUserInfo';
-
-export const SignInAltScreen = ({navigation}) => {
+import * as constant from '../constants'
+export const SignInAltRealScreen = ({navigation}) => {
   const {login} = useAuth();
   const {getInfo, clearUserData, userInfo} = useUserInfo();
   const [data, setData] = useState({
@@ -48,12 +50,20 @@ export const SignInAltScreen = ({navigation}) => {
 
   const onLogin = () => {
     if (data.password.length == 0 || data.username.length == 0) {
-      Alert.alert('Oops!', 'Yêu cầu nhập mật khẩu', [{text: 'Okay'}]);
+      Alert.alert('Oops!', 'Yêu cầu nhập tên đăng nhập và mật khẩu', [
+        {text: 'Okay'},
+      ]);
     } else {
       loginApi();
     }
   };
 
+  const textInputChange = value => {
+    setData({
+      ...data,
+      username: value,
+    });
+  };
   const handlePasswordChange = value => {
     setData({
       ...data,
@@ -66,15 +76,13 @@ export const SignInAltScreen = ({navigation}) => {
       secureTextEntry: !data.secureTextEntry,
     });
   };
-
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
       <View style={styles.header}>
-        <View style={{height: '150%'}}>
+        <View style={{justifyContent: 'flex-start'}}>
           <Animatable.Image
-            animation="bounceIn"
-            duration={1500}
+            animation="fadeInDownBig"
             style={styles.logo}
             resizeMode="stretch"
             source={require('../assets/logo.png')}
@@ -87,12 +95,12 @@ export const SignInAltScreen = ({navigation}) => {
             styles.name_footer,
             {alignSelf: 'center', fontWeight: 'bold'},
           ]}>
-          Xin chào!
+          {constant.GREETING}
         </Text>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', marginBottom: 10}}>
           <Avatar.Image
-            style={[styles.avatar, {}]}
-            size={100}
+            style={styles.avatar}
+            size={50}
             source={{
               uri:
                 'https://robohash.org/9389dceb6becd9c57b0e3b2438a19402?set=set4&bgset=bg1&size=400x400',
@@ -100,164 +108,162 @@ export const SignInAltScreen = ({navigation}) => {
           />
           <View style={{marginLeft: 10, justifyContent: 'center'}}>
             <Text style={styles.name_footer}>{userInfo.name}</Text>
-            <Text style={styles.id_footer}>{userInfo.username}</Text>
+            <Text style={styles.id_footer}>{userInfo.phone}</Text>
           </View>
         </View>
         <View style={styles.action}>
           <TextInput
-            selectionColor={'#fff'}
-            placeholder="Nhập mật khẩu"
-            placeholderTextColor={'#FFF'}
+            selectionColor={'#E89F76'}
+            placeholder={constant.PASSWORD} 
+            placeholderTextColor={'#E89F76'}
             secureTextEntry={data.secureTextEntry}
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={value => handlePasswordChange(value)}
           />
 
-          <TouchableOpacity
-            onPress={updateSecureTextEntry}
-            style={{marginLeft: 'auto'}}>
+          <TouchableOpacity onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (
-              <Feather name="eye-off" color="#FFF" size={20} />
+              <Feather
+                name="eye-off"
+                color="#E89F76"
+                size={20}
+                style={{marginRight: 10}}
+              />
             ) : (
-              <Feather name="eye" color="#FFF" size={20} />
+              <Feather
+                name="eye"
+                color="#E89F76"
+                size={20}
+                style={{marginRight: 10}}
+              />
             )}
           </TouchableOpacity>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity style={{flex: 1}}>
+        <View style={{flexDirection:'row'}}>
+          <TouchableOpacity style={{flex:1}} onPress={clearUserData}>
             <Text
               style={{
-                color: '#FFF',
-                marginTop: 15,
+                color: '#2C5282',
+                marginTop: 13,
                 fontWeight: 'bold',
-                fontSize: 16,
+                fontSize: 14,
+                
               }}>
-              Quên mật khẩu?
+              {constant.QUIT}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => clearUserData()}>
+          <TouchableOpacity>
             <Text
               style={{
-                color: '#FFF',
-                marginTop: 15,
+                color: '#2C5282',
+                marginTop: 13,
                 fontWeight: 'bold',
-                fontSize: 16,
+                fontSize: 14,
+               
               }}>
-              Thoát tài khoản
+              {constant.FORGET_PASSWORD}
             </Text>
           </TouchableOpacity>
         </View>
-
         <View style={styles.button}>
           <TouchableOpacity style={styles.signIn} onPress={onLogin}>
-            <LinearGradient colors={['#fff', '#b8b8b8']} style={styles.signIn}>
-              <Text style={[styles.textSign, {color: '#0d60ae'}]}>
-                Đăng nhập
-              </Text>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['#003C77', '#65A465']}
+              style={styles.signIn}>
+              <Text style={[styles.textSign, {color: '#fff'}]}>{constant.SIGN_IN}</Text>
             </LinearGradient>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginLeft: 'auto',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Image
+              source={require('../assets/FaceID.png')}
+              style={{resizeMode: 'stretch', height: 39, width: 39}}
+            />
+          </TouchableOpacity>
         </View>
+      </Animatable.View>
+      <Animatable.View
+        animation="fadeInUpBig"
+        style={{position: 'absolute', bottom: 0}}>
+        <TouchableOpacity>
+          <ImageBackground
+            source={require('../assets/map_background.png')}
+            style={styles.image_footer}>
+            <Image
+              source={require('../assets/marker_icon.png')}
+              style={{height: 25, width: 25, marginRight: 5}}
+            />
+            <Text style={styles.location_text}>{constant.NEARBY_STATION}y</Text>
+          </ImageBackground>
+        </TouchableOpacity>
       </Animatable.View>
     </View>
   );
 };
 
 const {height, width} = Dimensions.get('screen');
-const height_logo = height * 0.1;
-
+const height_logo = height * 0.2;
+const width_button = width * 0.63;
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 10,
     flex: 1,
     backgroundColor: '#FFF',
   },
-  avatar_container: {
-    paddingTop: 10,
-    height: '150%',
-  },
-  avatar: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
+  logo: {
+    height: '80%',
+    resizeMode: 'contain',
   },
   header: {
-    flex: 3,
+    height: height_logo,
     alignItems: 'center',
-
-    paddingBottom: 40,
-  },
-  logo: {
-    resizeMode: 'contain',
-    height: '80%',
   },
   footer: {
-    flex: 9,
-    backgroundColor: '#0d60ae',
-    borderTopLeftRadius: 70,
     paddingHorizontal: 30,
-    paddingVertical: 30,
+    backgroundColor: '#FFF',
   },
 
   text_footer: {
-    color: '#FFF',
+    color: '#000',
     fontSize: 18,
     fontWeight: 'bold',
   },
-  name_footer: {
-    color: '#FFF',
-    fontSize: 20,
-    fontWeight: '900',
-
-    textTransform: 'uppercase',
-  },
-  id_footer: {
-    color: '#FFF',
-    fontSize: 15,
-  },
   action: {
     flexDirection: 'row',
-    marginTop: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
-    paddingBottom: 5,
+    borderWidth: 1,
+    borderColor: '#E8E8E8',
+    paddingVertical: 8,
+    alignItems: 'center',
   },
 
   textInput: {
-    paddingLeft: 10,
-    paddingVertical: 0,
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 20,
     flex: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 0,
+    color: '#E89F76',
+    fontSize: 14,
   },
 
   button: {
-    alignItems: 'center',
-    marginTop: 35,
+    flexDirection: 'row',
+    marginTop: 40,
   },
   signIn: {
-    width: '100%',
+    width: width_button,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-
-    elevation: 12,
   },
   textSign: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 'bold',
   },
   commandButton: {
@@ -273,5 +279,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     alignItems: 'center',
     marginTop: 10,
+  },
+  image_footer: {
+    width: width,
+    height: height * 0.07,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  location_text: {
+    fontSize: 16,
+    color: '#F96C00',
+  },
+  name_footer: {
+    color: '#E89F76',
+    fontSize: 20,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+  },
+  id_footer: {
+    color: '#E89F76',
+    fontSize: 15,
   },
 });

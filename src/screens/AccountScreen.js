@@ -6,13 +6,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
+  Text
 } from 'react-native';
-import {Title, Caption, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
-
+import * as constant from '../constants'
 import {useUserInfo} from '../hooks/useUserInfo';
 import {useAuth} from '../hooks/useAuth';
 export const AccountScreen = ({navigation}) => {
@@ -36,23 +36,23 @@ export const AccountScreen = ({navigation}) => {
   const renderInnerAvatar = () => (
     <View style={styles.panel}>
       <View style={{alignItems: 'center'}}>
-        <Text style={styles.panelTitle}>Thay ảnh đại diện</Text>
-        <Text style={styles.panelSubtitle}>Chọn ảnh đại diện mới</Text>
+        <Text style={styles.panelTitle}>{constant.CHANGE_AVATAR}</Text>
+        <Text style={styles.panelSubtitle}>{constant.CHOOSE_AVATAR}</Text>
       </View>
       <TouchableOpacity
         style={styles.panelButton}
         onPress={takePhotoFromCamera}>
-        <Text style={styles.panelButtonTitle}>Chụp ảnh</Text>
+        <Text style={styles.panelButtonTitle}>{constant.TAKE_PHOTO}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.panelButton}
         onPress={choosePhotoFromLibrary}>
-        <Text style={styles.panelButtonTitle}>Chọn từ thư viện</Text>
+        <Text style={styles.panelButtonTitle}>{constant.PICK_FROM_LIBRARY}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.panelButton}
         onPress={() => bs.current.snapTo(1)}>
-        <Text style={styles.panelButtonTitle}>Cancel</Text>
+        <Text style={styles.panelButtonTitle}>{constant.CANCEL}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -126,8 +126,8 @@ export const AccountScreen = ({navigation}) => {
             <TouchableOpacity onPress={() => bs.current.snapTo(0)}>
               <View
                 style={{
-                  height: 100,
-                  width: 100,
+                  height: 120,
+                  width: 120,
                   borderRadius: 15,
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -136,125 +136,143 @@ export const AccountScreen = ({navigation}) => {
                   source={{
                     uri: image,
                   }}
-                  style={{height: 100, width: 100}}
-                  imageStyle={{borderRadius: 15}}>
+                  style={{height: 120, width: 120}}
+                  imageStyle={{borderRadius: 100}}>
                   <View
                     style={{
                       flex: 1,
                       justifyContent: 'flex-end',
                       alignItems: 'flex-end',
-                      marginRight: 2,
-                      marginBottom: 2,
+                      // marginRight: 2,
+                      // marginBottom: 2,
                     }}>
-                    <Icon
-                      name="camera"
-                      size={25}
-                      color="#fff"
+                    <View
                       style={{
-                        opacity: 0.7,
-                      }}
-                    />
+                        backgroundColor: '#EAEAEA',
+                        borderRadius: 50,
+                        padding: 3,
+                      }}>
+                      <Icon
+                        name="camera"
+                        size={28}
+                        color="#666666"
+                        style={{
+                          opacity: 1,
+                        }}
+                      />
+                    </View>
                   </View>
                 </ImageBackground>
               </View>
             </TouchableOpacity>
-
-            <View>
-              <Title
-                style={[
-                  styles.title,
-                  {
-                    marginTop: 15,
-                    marginBottom: 5,
-                  },
-                ]}>
-                {userInfo.name}
-              </Title>
-              <Caption
-                style={styles.caption}>{`@${userInfo.username}`}</Caption>
-            </View>
           </View>
         </View>
 
         <View style={styles.userInfoSection}>
-          <View style={styles.row}>
-            <Icon name="information-outline" color="#0d60ae" size={30} />
-            <Text style={{color: '#777777', marginLeft: 20, fontSize: 15}}>
-              {userInfo.PLXID}
-            </Text>
+          <View style={{flexDirection: 'row'}}>
+          <View style={styles.info_label}>
+              <Text style={styles.label_text}>{constant.FULLNAME}</Text>
+            </View>
+            <View style={styles.info_detail}>
+              <Text style={styles.info_text}>{userInfo.name}</Text>
+            </View>
           </View>
-          <View style={styles.row}>
-            <Icon name="office-building" color="#0d60ae" size={30} />
-            <Text style={{color: '#777777', marginLeft: 20, fontSize: 15}}>
-              {userInfo.company}
-            </Text>
+          <View style={{flexDirection: 'row'}}>
+            <View style={styles.info_label}>
+              <Text style={styles.label_text}>{constant.COMPANY}</Text>
+            </View>
+            <View style={styles.info_detail}>
+              <Text style={styles.info_text}>{userInfo.company}</Text>
+            </View>
           </View>
-          <View style={styles.row}>
-            <Icon name="phone" color="#0d60ae" size={30} />
-            <Text style={{color: '#777777', marginLeft: 20, fontSize: 15}}>
-              {userInfo.phone}
-            </Text>
+          <View style={{flexDirection: 'row'}}>
+          <View style={styles.info_label}>
+              <Text style={styles.label_text}>{constant.PHONE}</Text>
+            </View>
+            <View style={styles.info_detail}>
+              <Text style={styles.info_text}>{userInfo.phone}</Text>
+            </View>
           </View>
-          <View style={styles.row}>
-            <Icon name="card-account-details" color="#0d60ae" size={30} />
-            <Text style={{color: '#777777', marginLeft: 20, fontSize: 15}}>
-              {userInfo.credentialID}
-            </Text>
+          <View style={{flexDirection: 'row'}}>
+          <View style={styles.info_label}>
+              <Text style={styles.label_text}>{constant.CREDENTIALID}</Text>
+            </View>
+            <View style={styles.info_detail}>
+              <Text style={styles.info_text}>{userInfo.credentialID}</Text>
+            </View>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('AddressEdit',{address: userInfo.address})}>
-            <View style={styles.row}>
-              <Icon name="map-marker-radius" color="#0d60ae" size={30} />
-              <Text style={{color: '#777777', marginLeft: 20, fontSize: 15, flex:1}}>
-                {userInfo.address}
-              </Text>
-              <Icon
-                name="chevron-right"
-                color="#777777"
-                size={30}
-              
-              />
+          <View style={{flexDirection: 'row'}}>
+          <View style={styles.info_label}>
+              <Text style={styles.label_text}>{constant.GENDER}</Text>
+            </View>
+            <View style={styles.info_detail}>
+              <Text style={styles.info_text}>{userInfo.sex}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+          <View style={styles.info_label}>
+              <Text style={styles.label_text}>{constant.BIRTHDAY}</Text>
+            </View>
+            <View style={styles.info_detail}>
+              <Text style={styles.info_text}>{userInfo.birthday}</Text>
+            </View>
+          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('AddressEdit', {address: userInfo.address})
+            }>
+            <View style={{flexDirection: 'row'}}>
+            <View style={styles.info_label}>
+              <Text style={styles.label_text}>{constant.ADDRESS}</Text>
+            </View>
+              <View style={styles.info_detail}>
+                <Text style={styles.info_text}>{userInfo.address}</Text>
+                <Icon name="chevron-right" color="#777777" size={30} />
+              </View>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('EmailEdit',{email: userInfo.email})}>
-            <View style={styles.row}>
-              <Icon name="email" color="#0d60ae" size={30} />
-              <Text style={{color: '#777777', marginLeft: 20, fontSize: 15, flex:1}}>
-                {userInfo.email}
-              </Text>
-              <Icon
-                name="chevron-right"
-                color="#777777"
-                size={30}
-                
-              />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('EmailEdit', {email: userInfo.email})
+            }>
+            <View style={{flexDirection: 'row'}}>
+            <View style={[styles.info_label,{borderBottomColor: '#b8b8b8', borderBottomWidth: 1,}]}>
+              <Text style={styles.label_text}>{constant.EMAIL}</Text>
+            </View>
+              <View style={styles.info_detail}>
+                <Text style={styles.info_text}>{userInfo.email}</Text>
+                <Icon name="chevron-right" color="#777777" size={30} />
+              </View>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate('PasswordChange')}>
-            <View style={[styles.row, {marginTop: 10}]}>
+            <View style={[styles.info_detail, {marginTop: 10}]}>
               <Icon name="shield-lock" color="#0d60ae" size={30} />
-              <Text style={{color: '#777777', marginLeft: 20, fontSize: 18}}>
-                Đổi mật khẩu
+              <Text
+                style={{
+                  color: '#777777',
+                  marginLeft: 20,
+                  fontSize: 18,
+                  flex: 1,
+                }}>
+               {constant.CHANGE_PASSWORD}
               </Text>
-              <Icon
-                name="chevron-right"
-                color="#777777"
-                size={30}
-                style={{marginLeft: 'auto'}}
-              />
+              <Icon name="chevron-right" color="#777777" size={30} />
             </View>
           </TouchableOpacity>
 
-          <View style={[styles.row, {marginTop: 55, borderBottomWidth: 0}]}>
-            <Icon name="exit-to-app" color="#777777" size={30} />
+          <View
+            style={[styles.info_detail, {marginTop: 55, borderBottomWidth: 0}]}>
+            <Icon name="exit-to-app" color="#5380D9" size={30} />
             <TouchableOpacity
               onPress={() => {
                 clearAllData();
                 onLogout();
               }}>
-              <Text style={{color: '#777777', marginLeft: 20, fontSize: 18}}>
-                Đăng xuất
+              <Text style={{color: '#5380D9', marginLeft: 20, fontSize: 18}}>
+                {constant.SIGN_OUT}
               </Text>
             </TouchableOpacity>
           </View>
@@ -281,13 +299,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '500',
   },
-  row: {
+  info_detail: {
+    flex: 2,
     flexDirection: 'row',
     marginBottom: 10,
-    paddingBottom: 10,
     alignItems: 'center',
     borderBottomColor: '#b8b8b8',
     borderBottomWidth: 1,
+    paddingBottom: 5,
+  },
+  info_label: {
+    flex: 1,
+    flexDirection: 'row',
+    marginBottom: 10,
+    alignItems: 'center',
   },
   commandButton: {
     padding: 15,
@@ -319,7 +344,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#00000040',
+    backgroundColor: '#000040',
     marginBottom: 10,
   },
   panelTitle: {
@@ -360,5 +385,18 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingVertical: 0,
     color: '#05375a',
+    fontSize: 15,
+  },
+  info_text: {
+    color: '#555555',
+    fontSize: 15,
+    flex: 1,
+    paddingVertical: 5,
+  },
+  label_text: {
+    color: '#6F6F6F',
+    fontSize: 16,
+    flex: 1,
+    paddingVertical: 5,
   },
 });

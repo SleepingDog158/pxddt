@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {useUserInfo} from '../hooks/useUserInfo';
 import LinearGradient from 'react-native-linear-gradient';
-
+import * as constant from "../constants"
 export const AddressEditScreen = ({route, navigation}) => {
   const {address} = route.params;
   const {editInfo, getInfo} = useUserInfo();
@@ -51,7 +51,7 @@ export const AddressEditScreen = ({route, navigation}) => {
     if (data.address == address || data.address == "") {
       Alert.alert(
         'OOps!',
-        'Không có thay đổi nào được ghi nhận!',
+        constant.NONE_CHANGE,
         [{text: 'Okay'}],
         {
           cancelable: false,
@@ -81,7 +81,7 @@ export const AddressEditScreen = ({route, navigation}) => {
       <View style={{marginTop: 30}}>
         <TouchableOpacity style={styles.signIn} onPress={onSubmit}>
           <LinearGradient colors={['#fa781b', '#ed411f']} style={styles.signIn}>
-            <Text style={[styles.textSign, {color: '#fff'}]}>Xác nhận</Text>
+            <Text style={[styles.textSign, {color: '#fff'}]}>{constant.SUBMIT}</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

@@ -14,6 +14,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
+import * as constant from "../constants"
 export const PasswordChangeScreen = ({navigation}) => {
   const {changePassword} = useUserInfo();
   const [data, setData] = useState({
@@ -79,13 +80,13 @@ export const PasswordChangeScreen = ({navigation}) => {
   const onSubmit = () => {
     Keyboard.dismiss();
     if (data.currentPassword === data.newPassword) {
-      Alert.alert('Oops!', 'Mật khẩu mới và Mật khẩu hiện tại trùng nhau!!', [
+      Alert.alert('Oops!', constant.SAME_PASSWORD, [
         {text: 'Okay'},
       ]);
     }else if (data.newPassword !== data.confirmPassword) {
       Alert.alert(
         'Oops!',
-        'Mật khẩu mới và Mật khẩu xác nhận không trùng khớp!!',
+        constant.PASSWORDS_NOT_MATCH,
         [{text: 'Okay'}],
       );
     } else {
@@ -94,30 +95,27 @@ export const PasswordChangeScreen = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
-      <Text style={[styles.text_footer, {marginTop: 15}]}>
-        Mật khẩu hiện tại
-      </Text>
       <View style={styles.action}>
         <FontAwesome
           name="lock"
           color="#05375a"
           size={20}
-          style={{alignSelf: 'center'}}
+          
         />
         <TextInput
-          placeholder="Mật khẩu hiện tại"
+          placeholder={`${constant.CURRENT_PASSWORD}*`}
           secureTextEntry={true}
           style={styles.textInput}
           autoCapotalize="none"
           onChangeText={value => handleCurrentPasswordChange(value)}
         />
       </View>
-      <Text style={[styles.text_footer, {marginTop: 15}]}>Mật khẩu mới</Text>
+   
       <View style={styles.action}>
-        <FontAwesome name="lock" color="#05375a" size={20} />
+        <FontAwesome name="lock" color="#05375a" size={20}  />
         <TextInput
           selectionColor={'#05375a'}
-          placeholder="Mật khẩu mới"
+          placeholder={`${constant.NEW_PASSWORD}*`}
           secureTextEntry={data.secureTextEntry}
           style={styles.textInput}
           autoCapotalize="none"
@@ -139,18 +137,15 @@ export const PasswordChangeScreen = ({navigation}) => {
           )}
         </TouchableOpacity>
       </View>
-      <Text style={[styles.text_footer, {marginTop: 15}]}>
-        Xác nhận mật khẩu mới
-      </Text>
       <View style={[styles.action, {marginBottom: 30}]}>
         <FontAwesome
           name="lock"
           color="#05375a"
           size={20}
-          style={{alignSelf: 'center'}}
+          
         />
         <TextInput
-          placeholder="Xác nhận mật khẩu mới"
+          placeholder={`${constant.CONFIRM_PASSWORD}*`}
           secureTextEntry={true}
           style={styles.textInput}
           autoCapotalize="none"
@@ -179,7 +174,7 @@ export const PasswordChangeScreen = ({navigation}) => {
             }
             // colors={['#fa781b', '#ed411f']}
             style={styles.signIn}>
-            <Text style={[styles.textSign, {color: '#fff'}]}>Xác nhận</Text>
+            <Text style={[styles.textSign, {color: '#fff'}]}>{constant.SUBMIT}</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>
@@ -189,9 +184,8 @@ export const PasswordChangeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
     backgroundColor: '#FFFFFF',
-    paddingTop: 20,
   },
 
   textSign: {
@@ -204,12 +198,15 @@ const styles = StyleSheet.create({
   },
   action: {
     flexDirection: 'row',
-    marginTop: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
-    paddingBottom: 5,
+    marginTop: 30,
+    borderWidth: 2,
+    borderColor: '#f2f2f2',
+    padding: 5,
+    alignItems:'center',
+    height: 55,
   },
   textInput: {
+    fontSize: 14,
     flex: 1,
     paddingLeft: 10,
     paddingVertical: 0,
